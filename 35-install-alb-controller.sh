@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 
 set -eu
-
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 source functions.sh
 source set-env.sh
 
-
-# Login to the cluster
-
+# write the kubeconfig
 azcli az aks get-credentials \
   --resource-group $RG_NAME \
   --name $AKS_NAME \
   --overwrite-existing
-
-# Install ALB controller through Helm chart
 
 ALB_IDENTITY_CLIENT_ID=$(azcli az identity show -g $RG_NAME -n $ALB_IDENTITY --query clientId -o tsv)
 

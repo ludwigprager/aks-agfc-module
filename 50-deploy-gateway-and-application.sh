@@ -1,19 +1,11 @@
 #!/usr/bin/env bash
 
 set -eu
-
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 source functions.sh
 source set-env.sh
 
-
-# 6. Create Kubernetes Gateway resource
-
-# Replace the $AGFC_ID and $AGFC_FRONTEND_NAME
-
 AGFC_ID=$(azcli az network alb show --resource-group $RG_NAME --name $AGFC_NAME --query id -o tsv)
-echo $AGFC_ID
 
 install-kubectl
 
@@ -48,14 +40,6 @@ spec:
 EOT
 
 
-# Once the gateway resource has been created, ensure the status is valid, the listener is Programmed, and an address is assigned to the gateway.
-
-#./kubectl get gateway gateway-app -n $NAMESPACE -o yaml
-
-#echo sleeping 60s for the gateway to be ready
-#sleep 60 # wait for the gateway to be ready
-
-#./kubectl get gateway gateway-app -n $NAMESPACE -o yaml
 
 echo deploying application
 cat << EOT | ./kubectl apply -f -
@@ -63,7 +47,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ns-app
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -75,7 +61,9 @@ spec:
   ports:
     - protocol: TCP
       port: 80
+
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:

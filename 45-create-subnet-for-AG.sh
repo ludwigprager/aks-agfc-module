@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 
 set -eu
-
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 source functions.sh
 source set-env.sh
 
-# ---
-
 MC_RG=$(azcli az aks show --name $AKS_NAME --resource-group $RG_NAME --query "nodeResourceGroup" -o tsv)
-CLUSTER_SUBNET_ID=$(azcli az vmss list --resource-group $MC_RG --query '[0].virtualMachineProfile.networkProfile.networkInterfaceConfigurations[0].ipConfigurations[0].subnet.id' -o tsv)
+CLUSTER_SUBNET_ID=$(azcli az vmss list --resource-group $MC_RG \
+  --query '[0].virtualMachineProfile.networkProfile.networkInterfaceConfigurations[0].ipConfigurations[0].subnet.id' \
+  -o tsv )
 
 VNET_NAME=$(azcli az network vnet show --ids $CLUSTER_SUBNET_ID --query name -o tsv)
 VNET_RG=$(azcli az network vnet show --ids $CLUSTER_SUBNET_ID --query resourceGroup -o tsv)

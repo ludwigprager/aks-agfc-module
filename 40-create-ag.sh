@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 
 set -eu
-
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 source functions.sh
 source set-env.sh
 
 if ! alb-exists $RG_NAME $AGFC_NAME; then
   echo creating the AGFC resource
-# azcli az network alb create -g $RG_NAME -n $AGFC_NAME -o none
-  azcli az network alb create -g $RG_NAME -n $AGFC_NAME
+  azcli az network alb create -g $RG_NAME -n $AGFC_NAME -o none
 else
   echo alb $AGFC_NAME already exists
 fi

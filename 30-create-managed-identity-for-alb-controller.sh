@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
 set -eu
-
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 source functions.sh
 source set-env.sh
-
 
 if ! identity-exists $RG_NAME $ALB_IDENTITY; then
   echo "creating ALB identity \'$ALB_IDENTITY\'"
@@ -36,7 +33,6 @@ azcli az role assignment create \
   --scope $MC_RG_ID \
   --role "acdd72a7-3385-48ef-bd42-f606fba81ae7" \
   -o none
-echo "portal link:" 
 
 # Set up federation with AKS OIDC issuer
 

@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
 set -eu
-
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 source functions.sh
 source set-env.sh
-
-  
 
 # create resource group and AKS cluster with OIDC and Workload Identity enabled
 
@@ -39,8 +35,7 @@ fi
 
 echo "portal: https://portal.azure.com/#browse/Microsoft.ContainerService%2FmanagedClusters"
 
-  
-# connect to the AKS cluster
+# create kubeconfig
 export KUBECONFIG=$BASEDIR/kubeconfig
 azcli az aks get-credentials \
   --resource-group $RG_NAME \
